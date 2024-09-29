@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool parse_double_digits(char* str) {
+bool parse_double_digits(const char* str) {
 	if (str[0] == '.') {
 		return false;
 	}
@@ -30,7 +30,7 @@ bool parse_double_digits(char* str) {
 	return true;
 }
 
-int get_opts(int argc, char** argv, long double* epsilon, long double* x) {
+int get_opts(const int argc, char** argv, long double* epsilon, long double* x) {
 	if (argc != 3) {
 		return 1;
 	}
@@ -45,7 +45,7 @@ int get_opts(int argc, char** argv, long double* epsilon, long double* x) {
 	return 0;
 }
 
-void a(long double eps, long double x, long double* ans) {
+void a(const long double eps, const long double x, long double* ans) {
 	long double el = 1;
 	long double n = 0;
 	*ans = 0;
@@ -56,7 +56,7 @@ void a(long double eps, long double x, long double* ans) {
 	}
 }
 
-void b(long double eps, long double x, long double* ans) {
+void b(const long double eps, const long double x, long double* ans) {
 	long double el = 1;
 	long double n = 0;
 	*ans = 0;
@@ -67,7 +67,7 @@ void b(long double eps, long double x, long double* ans) {
 	}
 }
 
-void c(long double eps, long double x, long double* ans) {
+void c(const long double eps, const long double x, long double* ans) {
 	if (x >= 1) {
 		*ans = -228;
 		return;
@@ -83,13 +83,13 @@ void c(long double eps, long double x, long double* ans) {
 	}
 }
 
-long double factorial(int n) {
+long double factorial(const int n) {
 	long double res = 1;
 	for (int i = 2; i <= n; i++) res *= i;
 	return res;
 }
 
-void d(long double eps, long double x, long double* ans) {
+void d(const long double eps, const long double x, long double* ans) {
 	long double el = 0;
 	long double n = 2;
 	*ans = el;

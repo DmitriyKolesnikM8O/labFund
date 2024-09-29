@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-long double summ_for_digit(long double m) {
+long double summ_for_digit(const long double m) {
 	long double sum = 0;
 	for (long double i = 1; i <= m; ++i) {
 		sum += (long double)(1 / i);
@@ -13,13 +13,13 @@ long double summ_for_digit(long double m) {
 	return 0;
 }
 
-long double factorial_digit(long double n) {
+long double factorial_digit(const long double n) {
 	long double res = 1;
 	for (int i = 2; i <= n; i++) res *= i;
 	return res;
 }
 
-int limit_e(long double epsilon, long double* ans) {
+int limit_e(const long double epsilon, long double* ans) {
 	long double n = 1;
 	long double one = 1;
 
@@ -36,7 +36,7 @@ int limit_e(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int sum_e(long double epsilon, long double* ans) {
+int sum_e(const long double epsilon, long double* ans) {
 	*ans = 0;
 	int n = 0;
 	long double one = 1;
@@ -50,7 +50,7 @@ int sum_e(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int equation_e(long double epsilon, long double* ans) {
+int equation_e(const long double epsilon, long double* ans) {
 	long double l = -999;
 	long double r = 1000;
 	long double current = 0.5;
@@ -66,7 +66,7 @@ int equation_e(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int limit_pi(long double epsilon, long double* ans) {
+int limit_pi(const long double epsilon, long double* ans) {
 	long double n = 1;
 	long double one = 1;
 	long double first = 4;
@@ -81,7 +81,8 @@ int limit_pi(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int sum_pi(long double epsilon, long double* ans) {
+
+int sum_pi(const long double epsilon, long double* ans) {
 	*ans = 0;
 	long double n = 1;
 	long double elem = 1;
@@ -95,12 +96,12 @@ int sum_pi(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int equation_pi(long double epsilon, long double* ans) { 
+int equation_pi(const long double epsilon, long double* ans) { 
 	*ans = acos(-1);
 	return 0; 
 	}
 
-int limit_ln(long double epsilon, long double* ans) {
+int limit_ln(const long double epsilon, long double* ans) {
 	long double n = 1;
 	long double one = 1;
 	long double first = 1;
@@ -114,7 +115,7 @@ int limit_ln(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int summ_ln(long double epsilon, long double* ans) {
+int summ_ln(const long double epsilon, long double* ans) {
 	*ans = 0;
 	long double n = 1;
 	long double elem = 1;
@@ -127,7 +128,7 @@ int summ_ln(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int equation_ln(long double epsilon, long double* ans) {
+int equation_ln(const long double epsilon, long double* ans) {
 	long double e = 0;
 	sum_e(epsilon, &e);
 	long double l = -999, r = 1000;
@@ -144,7 +145,7 @@ int equation_ln(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int limit_sqrt(long double epsilon, long double* ans) {
+int limit_sqrt(const long double epsilon, long double* ans) {
 	long double first = -0.5;
 	long double second = 0.375;
 	while (epsilon < fabsl(first - second)) {
@@ -155,7 +156,7 @@ int limit_sqrt(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int summ_sqrt(long double epsilon, long double* ans) {
+int summ_sqrt(const long double epsilon, long double* ans) {
 	*ans = 1;
 	long double n = 2;
 	long double elem = powl(2, 0.25);
@@ -168,7 +169,7 @@ int summ_sqrt(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int equation_sqrt(long double epsilon, long double* ans) {
+int equation_sqrt(const long double epsilon, long double* ans) {
 	long double l = -1000, r = 1000;
 	long double current = 0;
 	while (epsilon < fabsl(l - r)) {
@@ -183,7 +184,7 @@ int equation_sqrt(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int limit_y(long double epsilon, long double* ans) {
+int limit_y(const long double epsilon, long double* ans) {
 	long double m = 100;
 	long double first = summ_for_digit(1);
 	long double second = summ_for_digit(2);
@@ -197,7 +198,7 @@ int limit_y(long double epsilon, long double* ans) {
 }
 
 //вычисляем сумму ряда
-long double y_row_member(long double n) {
+long double y_row_member(const long double n) {
 	long double res = 0;
 	for (int k = 1; k <= 2 * n; k++) {
 		res += 1.0 / (n * n) * ((long double)k / ((long double)k + (long double)n * n));
@@ -205,7 +206,7 @@ long double y_row_member(long double n) {
 	return res;
 }
 
-int summ_y(long double epsilon, long double* ans) {
+int summ_y(const long double epsilon, long double* ans) {
 	long double Pi = acos(-1);
 	long double result = -Pi * Pi / 6.0 + 1.0 / 2.0 + 2.0 / 3.0;
 	long double k = 2;
@@ -222,7 +223,7 @@ int summ_y(long double epsilon, long double* ans) {
 }
 
 //находим все простые числа в диапазоне от 0 до n-1
-int sieve_Eratosthenes(bool* sv, long long n) {
+int sieve_Eratosthenes(bool* sv, const long long n) {
 	//инициализируем все элементы массива
 	for (int i = 0; i < n; i++) {
 		sv[i] = 1;
@@ -241,7 +242,7 @@ int sieve_Eratosthenes(bool* sv, long long n) {
 	return 0;
 }
 
-long double next_for_equation(long double accuracy) {
+long double next_for_equation(const long double accuracy) {
 	bool* is_prime = (bool*)malloc(sizeof(bool) * (accuracy + 1));
 	if (is_prime == NULL) {
 		free(is_prime);
@@ -258,7 +259,7 @@ long double next_for_equation(long double accuracy) {
 	return res;
 }
 
-int equation_y(long double epsilon, long double* ans) {
+int equation_y(const long double epsilon, long double* ans) {
 	long double first = next_for_equation(2);
 	long double second = next_for_equation(3);
 	int n = 4;
@@ -271,7 +272,7 @@ int equation_y(long double epsilon, long double* ans) {
 	return 0;
 }
 
-int print_for_e(long double epsilon) {
+int print_for_e(const long double epsilon) {
 	long double ans = 0;
 	printf("For E:		");
 	limit_e(epsilon, &ans);
@@ -284,7 +285,7 @@ int print_for_e(long double epsilon) {
 	return 0;
 }
 
-int print_for_pi(long double epsilon) {
+int print_for_pi(const long double epsilon) {
 	long double ans = 0;
 	printf("For Pi: 	");
 	limit_pi(epsilon, &ans);
@@ -297,7 +298,7 @@ int print_for_pi(long double epsilon) {
 	return 0;
 }
 
-int print_for_ln(long double epsilon) {
+int print_for_ln(const long double epsilon) {
 	long double ans = 0;
 	printf("For Ln2:	");
 	limit_ln(epsilon, &ans);
@@ -310,7 +311,7 @@ int print_for_ln(long double epsilon) {
 	return 0;
 }
 
-int print_for_sqr(long double epsilon) {
+int print_for_sqr(const long double epsilon) {
 	long double ans = 0;
 	printf("For Sqr2:    	");	
 	limit_sqrt(epsilon, &ans);
@@ -321,7 +322,7 @@ int print_for_sqr(long double epsilon) {
 	printf("%.10Lf\n", ans);
 }
 
-int print_for_y(long double epsilon) {
+int print_for_y(const long double epsilon) {
 	long double ans = 0;
 	printf("For Y:		");
 	limit_y(epsilon, &ans);
@@ -332,9 +333,10 @@ int print_for_y(long double epsilon) {
 	printf("%.10Lf ", ans);
 }
 
+// считаем буковки
 int main(int argc, char** argv) {
 	if (argc != 2) {
-		printf("No no no mister Fish");
+		printf("%d - Неправильное количество аргументов\n", argc);
 		return 1;
 	}
 	//считываем точность
@@ -342,6 +344,12 @@ int main(int argc, char** argv) {
    	long double epsilon = strtod(argv[1], &endptr);
     if ((endptr == argv[1] || *endptr != '\0') || (epsilon <= 0.0 || epsilon <= 0)) {
         printf("БОЖЕ ЧЕЛ ЧТО ТЫ ВВЕЕЕЕЛ.\n");
+		if (epsilon <= 0.0 || epsilon <= 0) {
+			printf("%Lf - эпсилон должен быть строго положительным", epsilon);
+		} else {
+			printf("Ошибка при введении аргумента");
+		}
+		
         return 52;
     }
 

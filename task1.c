@@ -4,7 +4,7 @@
 #include <limits.h>
 
 
-int func_flag_h(int number) {
+int func_flag_h(const int number) {
 
 	if (number > 50) {
 		printf("Кратных чисел нет");
@@ -28,19 +28,19 @@ int func_flag_h(int number) {
 	return 0;
 }
 
-int func_flag_p(int n) {
+int func_flag_p(const int n) {
 	if (n == 2) {
         printf("простое оно, простое");
 		return 0;
     }
     if ((n <= 1) || (n % 2 == 0)) {
-        printf("Не простое, мб золотое?");
+        printf("Не простое, мб золотое? (составное)");
 		return 0;
     }
 
     for (int i = 3; i <= sqrt(n); i += 2) {
         if (n % i == 0) {
-			printf("Не простое, мб золотое?");
+			printf("Не простое, мб золотое? (составное)");
             return 0;
         }
     }
@@ -50,7 +50,7 @@ int func_flag_p(int n) {
 
 
 // wrong solution for flag -s
-// void func_flag_s(int n) {
+// void func_flag_s(const int n) {
 
 //     char hex_digits[32]; 
 //     int index = 0;
@@ -95,9 +95,10 @@ int func_flag_s(int number) {
             digits = number % 10;
             digits_dopolntinelno = (number % 100) / 10;
             number_parts[index++] = digits;
-            number_parts[index++] = digits_dopolntinelno;
+            // number_parts[index++] = digits_dopolntinelno;
             
-			number /= 100;
+			//number /=100;
+			number /= 10;
         } else {
             number_parts[index++] = digits;
             number /= 100;
@@ -110,7 +111,7 @@ int func_flag_s(int number) {
     return 0;
 }
 
-int func_flag_e(int number) {
+int func_flag_e(const int number) {
 	for (int i = 1; i != number + 1; ++i) {
 		long long pow = i;
 		for (int j = 0; j != 10; ++j) {
@@ -122,14 +123,14 @@ int func_flag_e(int number) {
 	return 0;
 }
 
-int func_flag_a(int number) {
+int func_flag_a(const int number) {
 	//ok google, are you know this formula??
 	long long answer = number * (number + 1) / 2;
 	printf("%lld ", answer);
 	return 0;
 }
 
-int func_flag_f(int number) {
+int func_flag_f(const int number) {
 	long long res = 1;
 	for (int i = 2; i <= number; i++) {
 		res *= i;
@@ -139,7 +140,7 @@ int func_flag_f(int number) {
 	return 0;
 }
 
-int string_to_int(char *str, int *number) {
+int string_to_int(const char *str, int *number) {
 	for (int i = 0; str[i] != '\0'; ++i) {
 		if (str[i] < 48 || str[i] > 57) {
 			return 1;
@@ -152,7 +153,7 @@ int string_to_int(char *str, int *number) {
 }
 
 
-int switch_flags(char **argv, int number) {
+int switch_flags(char **argv, const int number) {
 	switch (argv[2][1]) {
 		case 'h':
 			func_flag_h(number);
@@ -164,8 +165,9 @@ int switch_flags(char **argv, int number) {
 			func_flag_s(number);
 			// print_hex_digits(number);
 			break;
-		case 'e':
+		case 'e':		
 			if (number > 10) {
+				printf("Слишком большое x, надо до 10\n");
 				return 666;
 			}
 			func_flag_e(number);
@@ -182,33 +184,42 @@ int switch_flags(char **argv, int number) {
 	return 0;
 }
 
+// ./1 x -flag
+/*
+	-h: натуральные числа до 100, кратные x
+	-p: понять, простое или составное
+	-s: разделить на отдельные цифры в 16сс
+	-e: таблица степеней от 1 до x
+	-a: сумма чисел от 1 до x
+	-f: факториал
+*/
 int main(int argc, char **argv) {
-	// чекаем что число аргументов вообще верное
+	
 	if (argc != 3) {
-		printf("Не смог, Не дано");
+		printf("Неправильное число аргументов");
 		return 1234;
 	}
 
-    // заводим переменные под число
+    
 	int x = 0;
 
 	
 	//пытаемся перевести число из строки в int
 	if (string_to_int(argv[1], &x)) {
-		printf("Ты снова не смог");
+		printf("неправильное число, таких не бывает");
 		return 2134345647;
 	}
 
 	//проверяем правильность флагов
 	if ((argv[2][0] != '-' && argv[2][0] != '/') || (argv[2][2] != '\0')) {
-		printf("Флаги жи есть?");
+		printf("Флаги жи есть? Правильный формат: ./1 x -flag");
 		return 1;
 	}
 
 
 	//пытаемся указать флаг
 	if (switch_flags(argv, x) == 666) {
-		printf("ТЫ ПРОСТО ЧУДО");
+		printf("Такого флага я не знаю: %s", argv[2]);
 		return 666;
 	}
 

@@ -6,8 +6,8 @@
 
 #define MAXIMUM 100
 
-// Функция для проверки, соответствует ли символ допустимым символам для указанного основания
-int is_valid_char_for_base(char c, int base) {
+
+int is_valid_char_for_base(const char c, const int base) {
     if (base <= 10) {
         return (c >= '0' && c < '0' + base);
     } else {
@@ -15,8 +15,8 @@ int is_valid_char_for_base(char c, int base) {
     }
 }
 
-// Функция для проверки, соответствует ли строка допустимым символам для указанного основания
-int is_valid_number_for_base(const char *str, int base) {
+
+int is_valid_number_for_base(const const char *str, const int base) {
     if (*str == '-' || *str == '+') {
         str++;
     }
@@ -29,8 +29,8 @@ int is_valid_number_for_base(const char *str, int base) {
     return -52;
 }
 
-// Функция для перевода строки из произвольной системы счисления в десятичную
-long long int str_to_decimal(char *str, int ss) {
+
+long long int str_to_decimal(const char *str, const int ss) {
     long long int result = 0;
     while (*str) {
         char c = *str;
@@ -46,8 +46,8 @@ long long int str_to_decimal(char *str, int ss) {
     return result;
 }
 
-// Функция для перевода числа из десятичной системы в произвольную
-int decimal_to_str(long long int num, int ss, char *result) {
+
+int decimal_to_str(long long int num, const int ss, char *result) {
     char buffer[MAXIMUM];
     int i = 0;
     int negative = 0;
@@ -89,6 +89,7 @@ int main() {
 
     if (ss < 2 || ss > 36) {
         printf("Читать научись, чертила\n");
+        printf("%d - система счисления должна быть от 2 до 36", ss);
         return -1;
     }
 
@@ -113,6 +114,7 @@ int main() {
 
     if (max_num == LLONG_MIN) {
         printf("А числа где?\n");
+        printf("Я не вижу чисел");
         return -1;
     }
     printf("Максимальное по модулю число: ");

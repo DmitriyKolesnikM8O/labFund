@@ -6,7 +6,7 @@
 #define ARRAY_SIZE 10
 
 // Функция для заполнения массива псевдослучайными числами в диапазоне [a, b]
-int fill_array_with_random_numbers(int *array, int size, int a, int b) {
+int fill_array_with_random_numbers(int *array, const int size, const int a, const int b) {
     for (int i = 0; i < size; i++) {
         array[i] = rand() % (b - a + 1) + a;
     }
@@ -15,7 +15,7 @@ int fill_array_with_random_numbers(int *array, int size, int a, int b) {
 }
 
 
-int find_and_swap_max_min(int *array, int size) {
+int find_and_swap_max_min(int *array, const int size) {
     int max_idx = 0, min_idx = 0;
 
     for (int i = 1; i < size; i++) {
@@ -34,7 +34,7 @@ int find_and_swap_max_min(int *array, int size) {
     return 0;
 }
 
-// Функция для проверки, является ли строка целым числом
+
 int is_integer(const char *str) {
     char *endptr;
 
@@ -56,6 +56,14 @@ int main(int argc, char *argv[]) {
     int b = atoi(argv[2]);
     if (((a > b) || (abs(a - b) < ARRAY_SIZE)) || (!is_integer(argv[1]) || !is_integer(argv[2]))) {
         printf("тупой ввод, хотя смотря какой FASHION, какой FABRIC.\n");
+        if (a > b) {
+            printf("a и b должны быть целыми числами и b должно быть больше a\n");
+        } else if (abs(a - b) < ARRAY_SIZE) {
+            printf("b - a должно быть больше %d\n", ARRAY_SIZE);
+        } else if (!is_integer(argv[1]) || !is_integer(argv[2])) {
+            printf("a и b должны быть целыми числами\n");
+        }
+        
         return -52222;
     }
 

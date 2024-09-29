@@ -14,6 +14,7 @@ int main() {
     
     if (A == NULL || B == NULL || C == NULL) {
         fprintf(stderr, "АААААААААААААААААА ЖЕНЩИНААААААААААААААААА\n");
+        printf("Не смог выделить память для какого-то файла\n");
         free(A);
         free(B);
         free(C);
@@ -26,6 +27,18 @@ int main() {
     for (int i = 0; i < sizeB; i++) {
         B[i] = rand() % 2001 - 1000;
     }
+
+    // Если надо будет посмотреть
+    // printf("A:\n");
+    // for (int i = 0; i < sizeA; i++) {
+    //     printf("%d ", A[i]);
+    // }
+    // printf("\n");
+    // printf("B:\n");
+    // for (int i = 0; i < sizeB; i++) {
+    //     printf("%d ", B[i]);
+    // }
+    // printf("\n");
 
     for (int i = 0; i < sizeA; i++) {
         int closestB = B[0];
@@ -47,6 +60,7 @@ int main() {
         printf("%d ", C[i]);
     }
     printf("\n");
+    printf("Size C: %d\n", sizeA);
 
     free(A);
     free(B);

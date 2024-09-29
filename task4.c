@@ -61,7 +61,7 @@ void menyam_na_ascii(FILE *input, FILE *output) {
     }
 }
 
-void parse_flags(char flag, FILE *input, FILE *output) {
+void parse_flags(const char flag, FILE *input, FILE *output) {
     switch (flag) {
         case 'd':
             delete_arabic_from_earth(input, output);
@@ -81,16 +81,35 @@ void parse_flags(char flag, FILE *input, FILE *output) {
     }
 }
 
+// ./4 -flag path_to_file name_output(if flag`s start is n)
+/*
+    -d: удалить все арабские цифры
+    -i: подсчитать количество латинских букв в строках
+    -s: подсчитать, сколько раз в строке символы, отличные от латиницы, арабских цифр и пробела
+    -a: заменить символы, отличные от цифр, ACKII кодом, записанным в сс 16
+*/
+
 int main(int argc, char *argv[]) {
     if (argc < 3) {
-        printf("не то");
+        printf("%d - не то количество аргументов", argc);
         return 1;
     }
+
     char *output = NULL;
     char *flag = argv[1];
-    FILE *input = fopen(argv[2], "r");
+
+    char *path_in = argv[2];
+
+
+    if (path_in[0] == '/' && path_in[1] == '/') {
+        path_in++;
+    }
+
+    FILE *input = fopen(path_in, "r");
     if (!input) {
         printf("внимание, пожарная тревога");
+        printf("Не смог открыть файл");
+        fclose(input);
         return 1;
     }
 
@@ -99,13 +118,23 @@ int main(int argc, char *argv[]) {
         n = 1;
         if (argc < 4) {
             printf("а имя ты указать не хочешь?");
+            printf("%d - неправильное количество аргументов", argc);
+            fclose(input);
             return 542;
         }
-        output = argv[3];
+        // Обработка пути файла
+        char *path_out = argv[3];
+
+        // Удаление лишних слешей
+        if (path_out[0] == '/' && path_out[1] == '/') {
+            path_out++;
+        }
+        output = path_out;
     } else {
         output = malloc(strlen(argv[2]) + 5);
         if (output == NULL) {
             free(output);
+            fclose(input);
             printf("Маловато памяти");
             return 21323465;
         }
@@ -114,6 +143,7 @@ int main(int argc, char *argv[]) {
 
     FILE *output_file = fopen(output, "w");
     if (!output_file) {
+        printf("Не смог открыть файл для записи");
         printf("внимание, пожарная тревога");
         fclose(input);
         return 12354;

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool double_from_stdin(char* str) {
+bool double_from_stdin(const char* str) {
 	if (str[0] == '.') {
 		printf("че, это похоже на число?");
 		return false;
@@ -56,77 +56,87 @@ int parse_if_argc_6(char** argv, long double* eps, long double* a, long double* 
 	return 0;
 }
 
-int solution_equation(long double eps, long double a, long double b, long double c) {
+int solution_equation(long double eps, const long double a, const long double b, const long double c) {
+	printf("Квадратное уравнение для: %Lf - эпсилон, %Lf - a, %Lf - b, %Lf - c\n", eps, a, b, c);
 	long double d = b * b - 4 * a * c;
 	if (d + eps < 0) {
-		printf("Прикол");
+		printf("Тут нет корней\n");
 		return 1234;
 	} else if (d <= eps) {
-		printf("%Lf\n", -b / (2 * a));
+		long double res = -b / (2 * a);
+		printf("Единственный корень: %Lf\n", res);
 	} else {
-		printf("%Lf ", ((-b + sqrtl(d)) / (2 * a)));
-		printf("%Lf\n", ((-b - sqrtl(d)) / (2 * a)));
+		long double res = ((-b + sqrtl(d)) / (2 * a));
+		printf("Первый корень: %Lf\n", res);
+		res = ((-b - sqrtl(d)) / (2 * a));
+		printf("Второй корень: %Lf\n", res);
 	}
 
 	return 0;
 }
 
-int solution(int eps, int a, int b, int c) {
-	if (solution_equation(eps, b, c, a)) {
-		return 1256;
-	} else if (solution_equation(eps, a, b, c)) {
-		return 1257;
-	} else if (solution_equation(eps, c, a, b)) {
-		return 1258;
-	} else if (solution_equation(eps, a, c, b)) {
-		return 1259;
-	} else if (solution_equation(eps, b, a, c)) {
-		return 1260;
-	} else if (solution_equation(eps, c, b, a)) {
-		return 1261;
-	}
+int solution(const int eps, const int a, const int b, const int c) {
+	solution_equation(eps, b, c, a);
+	solution_equation(eps, a, b, c);
+	solution_equation(eps, c, a, b);
+	solution_equation(eps, a, c, b);
+	solution_equation(eps, b, a, c);
+	solution_equation(eps, c, b, a);
+
 	return 0;
 }
 
-int triangle_test(long double eps, long double a, long double b, long double c) {
+int triangle_test(const long double eps, const long double a, const long double b, const long double c) {
 	if (a == 0 || b == 0 || c == 0) {
 		printf("Рофл?");
+		printf("Не могут образовывать треугольник");
 		return 0;
 	}
 
 	//проверка на c, a, b
 	if (a * a + b * b - c * c < eps && a * a + b * b - c * c > -eps) {
 		printf("Да\n");
+		printf("Да, могут образовывать треугольник");
 		return 0;
 	} else if (b * b + c * c - a * a < eps && b * b + c * c - a * a > -eps) {
 		printf("Могут\n");
+		printf("Да, могут образовывать треугольник");
 		return 0;
 	} else if (a * a + c * c - b * b < eps && a * a + c * c - b * b > -eps) {
 		printf("Так точно капитан\n");
+		printf("Да, могут образовывать треугольник");
 		return 0; 
 	}
 	printf("Не фортануло\n");
+	printf("Не могут образовать треугольник");
 	return 0;
 }
 
 int func_for_argc_4(int argc, char** argv) {
 	//проверка на флаг
 	if ((argv[1][0] != '-' && argv[1][0] != '/') || argv[1][1] != 'm' || argv[1][2] != '\0') {
-		printf("Вообщ ничего не понятно");
+		printf("Вообще ничего не понятно");
 		return 52;
 	}
 
 	//проверка на первое число
 	for (int i = 0; argv[2][i] != '\0'; ++i) {
+		if (i == 0 && argv[2][i] == '-') {
+        	continue;
+    	}
 		if (argv[2][i] < 48 || argv[2][i] > 57) {
-			printf("Зачем такие нехорошие числа вводишь");
+			printf("%d - Зачем такие нехорошие числа вводишь", argv[2][i]);
 			return 42;
 		}
 	}
 	//проверка на второе число
 	for (int i = 0; argv[3][i] != '\0'; ++i) {
+		if (i == 0 && argv[3][i] == '-') {
+        	continue;
+    	}	
 		if (argv[3][i] < 48 || argv[3][i] > 57) {
-			printf("Зачем такие нехорошие числа вводишь");
+			printf("%d - Зачем такие нехорошие числа вводишь", argv[3][i]);
+			// printf("Зачем такие нехорошие числа вводишь");
 			return 124;
 		}
 	}
@@ -140,7 +150,7 @@ int func_for_argc_4(int argc, char** argv) {
 		return 2134545;
 	}
 	if (a == 0 || b == 0) {
-		printf("норм  тест");
+		printf("норм  тест, но надо не равные 0");
 		return 32454;
 	}
 
@@ -157,14 +167,18 @@ int func_for_argc_6(int argc, char** argv) {
 	//снова проверка на правильность флагов
 	if ((argv[1][0] != '-' && argv[1][0] != '/') || (argv[1][1] != 'q' && argv[1][1] != 't') || argv[1][2] != '\0') {
 		printf("Не умеешь, не берись!");
+		printf("Неправильно введены флаги");
 		return 42;
 	}
 	if (argv[1][1] == 'q') {
 		long double eps, a, b, c;
 		if (parse_if_argc_6(argv, &eps, &a, &b, &c)) {
 			printf("\nНе получилось\n");
+			printf("Неправильно введены числа");
 			return 12345;
 		}
+
+		
 		if (solution(eps, a, b, c)) {
 			printf("В каком-то что-то не то-то");
 			return 1256789;
@@ -183,9 +197,16 @@ int func_for_argc_6(int argc, char** argv) {
 	return 0;
 }
 
+// ./3 -flag {...numbers...}
+/*
+	-q: точность сравнения, далее 3 вещественных для квадратного уравнения
+	-m: 2 ненулевых целых числа и проверка, кратно ли одно другому
+	-t: точность сравнения, далее проверка на треугольник 3 чисел
+*/
 int main(int argc, char** argv) {
 	if (argc != 6 && argc != 4) {
 		printf("Не то что-то ты ввел");
+		printf("%d - неправильное количество аргументов", argc);
 		return 52;
 	}
 	if (argc == 4) {

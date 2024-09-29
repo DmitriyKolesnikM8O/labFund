@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-double trapezoidal_rule(double (*f)(double), double a, double b, int n) {
+double trapezoidal_rule(const double (*f)(double), const double a, const double b, const int n) {
     double h = (b - a) / n; //шаг разбиения
     double sum = 0.5 * (f(a) + f(b));
 
@@ -13,32 +13,44 @@ double trapezoidal_rule(double (*f)(double), double a, double b, int n) {
     return sum * h;
 }
 
-double integral_a(double x) {
+double integral_a(const double x) {
     return log(1 + x) / x;
 }
 
-double integral_b(double x) {
+double integral_b(const double x) {
     return exp(-x * x / 2);
 }
 
-double integral_c(double x) {
+double integral_c(const double x) {
     return log(1 / (1 - x));
 }
 
-double integral_d(double x) {
+double integral_d(const double x) {
     return pow(x, x);
 }
 
+// ./6 epsilon
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        printf("Usage: %s <epsilon>\n", argv[0]);
+        printf("Пожалуйста, дай мне эпсилон\n");
         return 1;
     }
 
     char *endptr;
     double epsilon = strtod(argv[1], &endptr);
+    if (*endptr != '\0') {
+        printf("что-то не так с эпсилон");
+        return 123456;
+    }
     if ((endptr == argv[1] || *endptr != '\0') || (epsilon <= 0.0 || epsilon <= 0)) {
         printf("БОЖЕ ЧЕЛ ЧТО ТЫ ВВЕЕЕЕЛ.\n");
+        if ((epsilon <= 0.0) || (epsilon <= 0.0)) {
+            printf("Эпсилон должен быть строго положительный\n");
+        }
+        
+        if ((endptr == argv[1] || *endptr != '\0')) {
+            printf("Что-то не то с epsilon\n");
+        }
         return 52;
     }
 
